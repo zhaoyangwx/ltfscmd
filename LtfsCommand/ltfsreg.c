@@ -29,7 +29,7 @@ BOOL LtfsRegCreateMapping(CHAR driveLetter, LPCSTR tapeDrive, LPCSTR serialNumbe
     CHAR regKey[128];
     BOOL success = FALSE;
 
-    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\Hewlett-Packard\\LTFS\\Mappings\\%c", driveLetter);
+    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\HPE\\LTFS\\Mappings\\%c", driveLetter);
 
     // These registry values are read directly by FUSE4WinSvc.exe
     if (RegCreateKeyEx(HKEY_LOCAL_MACHINE, regKey, 0, NULL, 0, KEY_READ | KEY_CREATE_SUB_KEY | KEY_SET_VALUE, NULL, &key, &disposition) == ERROR_SUCCESS)
@@ -83,7 +83,7 @@ BOOL LtfsRegUpdateMapping(CHAR driveLetter, LPCSTR newDevName)
     CHAR regKey[128];
     BOOL success = FALSE;
 
-    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\Hewlett-Packard\\LTFS\\Mappings\\%c", driveLetter);
+    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\HPE\\LTFS\\Mappings\\%c", driveLetter);
 
     if (RegCreateKeyEx(HKEY_LOCAL_MACHINE, regKey, 0, NULL, 0, KEY_READ | KEY_CREATE_SUB_KEY | KEY_SET_VALUE, NULL, &key, &disposition) == ERROR_SUCCESS)
     {
@@ -136,7 +136,7 @@ BOOL LtfsRegRemoveMapping(CHAR driveLetter)
 {
     char regKey[128];
 
-    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\Hewlett-Packard\\LTFS\\Mappings\\%c", driveLetter);
+    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\HPE\\LTFS\\Mappings\\%c", driveLetter);
 
     return RegDeleteKey(HKEY_LOCAL_MACHINE, regKey) == ERROR_SUCCESS;
 }
@@ -150,7 +150,7 @@ BOOL LtfsRegGetMappingCount(BYTE *numMappings)
 
     for (driveLetter = MIN_DRIVE_LETTER; driveLetter <= MAX_DRIVE_LETTER; driveLetter++)
     {
-        _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\Hewlett-Packard\\LTFS\\Mappings\\%c", driveLetter);
+        _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\HPE\\LTFS\\Mappings\\%c", driveLetter);
 
         LRESULT result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, regKey, 0, KEY_READ, &key);
 
@@ -176,7 +176,7 @@ BOOL LtfsRegGetMappingProperties(CHAR driveLetter, LPSTR deviceName, USHORT devi
     BOOL result = FALSE;
     char regKey[128];
 
-    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\Hewlett-Packard\\LTFS\\Mappings\\%c", driveLetter);
+    _snprintf_s(regKey, _countof(regKey), _TRUNCATE, "Software\\HPE\\LTFS\\Mappings\\%c", driveLetter);
 
     if ((result = (RegOpenKeyEx(HKEY_LOCAL_MACHINE, regKey, 0, KEY_READ, &key) == ERROR_SUCCESS)))
     {
@@ -207,7 +207,7 @@ static BOOL LtfsRegGetInstallDir(LPSTR buffer, USHORT bufferLen)
     BOOL result = FALSE;
     char regKey[128];
 
-    strcpy_s(regKey, _countof(regKey), "Software\\Hewlett-Packard\\LTFS");
+    strcpy_s(regKey, _countof(regKey), "Software\\HPE\\LTFS");
 
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, regKey, 0, KEY_READ, &key) == ERROR_SUCCESS)
     {
